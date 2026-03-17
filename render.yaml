@@ -1,0 +1,38 @@
+# Render Blueprint: deploy all 3 services with public URLs
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: weather-collector
+    env: docker
+    dockerfilePath: ./services/collector/Dockerfile
+    plan: free
+    envVars:
+      - key: 5bb7ffc78a93f77588753171d863e14a
+        sync: false
+    healthCheckPath: /health
+
+  - type: web
+    name: weather-processor
+    env: docker
+    dockerfilePath: ./services/processor/Dockerfile
+    plan: free
+    envVars:
+      - key: COLLECTOR_URL
+        fromService:
+          name: weather-collector
+          type: web
+          property: host
+    healthCheckPath: /health
+
+  - type: web
+    name: weather-gateway
+    env: docker
+    dockerfilePath: ./services/gateway/Dockerfile
+    plan: free
+    envVars:
+      - key: PROCESSOR_URL
+        fromService:
+          name: weather-processor
+          type: web
+          property: host
+    healthCheckPath: /health

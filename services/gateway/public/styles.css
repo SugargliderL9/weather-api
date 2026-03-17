@@ -1,0 +1,249 @@
+/* Weather app – base for anime.js */
+:root {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --accent: #00d9ff;
+  --accent-dim: #00a8cc;
+  --text: #e8e8f0;
+  --muted: #8888aa;
+  --error: #ff6b6b;
+  --radius: 16px;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  position: relative;
+}
+
+/* Full-screen weather-driven background */
+.weather-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    var(--weather-top, #0f0f1a) 0%,
+    var(--weather-mid, #1a1a2e) 50%,
+    var(--weather-bottom, #0d0d14) 100%
+  );
+  transition: background 0.1s ease-out;
+}
+
+/* Rain / snow overlays – shown by JS when condition is rainy/snowy */
+.weather-bg__rain,
+.weather-bg__snow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.weather-bg__rain.visible {
+  opacity: 0.4;
+}
+
+.weather-bg__snow.visible {
+  opacity: 0.6;
+}
+
+.weather-bg__rain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.03) 2px,
+    rgba(255, 255, 255, 0.03) 3px
+  );
+  background-size: 200% 200%;
+  animation: rain-fall 0.8s linear infinite;
+}
+
+.weather-bg__snow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.15) 0%, transparent 8%),
+              radial-gradient(circle at 60% 0%, rgba(255, 255, 255, 0.12) 0%, transparent 6%),
+              radial-gradient(circle at 85% 0%, rgba(255, 255, 255, 0.1) 0%, transparent 7%);
+  background-size: 100% 120%;
+  animation: snow-fall 4s linear infinite;
+}
+
+@keyframes rain-fall {
+  to { background-position: 0 200%; }
+}
+
+@keyframes snow-fall {
+  to { background-position: 0 120%; }
+}
+
+main {
+  width: 100%;
+  max-width: 420px;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+#search {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#city {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#city:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2);
+}
+
+#search button {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+  color: var(--bg);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#search button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 217, 255, 0.35);
+}
+
+#search button:active {
+  transform: translateY(0);
+}
+
+#result {
+  min-height: 80px;
+}
+
+.loading {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.error {
+  color: var(--error);
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.card h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.card .meta {
+  color: var(--muted);
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+.temp-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.temp {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.temp-unit {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.advice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.advice ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+/* Elements we animate – initial states */
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.card .animate-el {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+#result .loading-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 0 2px;
+}

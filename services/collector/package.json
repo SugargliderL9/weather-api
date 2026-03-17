@@ -1,0 +1,11 @@
+{
+  "name": "weather-collector",
+  "version": "1.0.0",
+  "description": "Service 1: Fetches raw weather data from OpenWeatherMap",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" }
+}

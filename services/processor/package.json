@@ -1,0 +1,11 @@
+{
+  "name": "weather-processor",
+  "version": "1.0.0",
+  "description": "Service 2: Processes and enriches weather data from collector",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" }
+}

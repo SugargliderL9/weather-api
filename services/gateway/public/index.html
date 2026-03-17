@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather System</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="weather-bg" class="weather-bg" aria-hidden="true">
+    <div id="weather-bg-rain" class="weather-bg__rain"></div>
+    <div id="weather-bg-snow" class="weather-bg__snow"></div>
+  </div>
+  <main>
+    <h1 class="animate-in" id="title">Weather</h1>
+    <form id="search" class="animate-in">
+      <input type="text" id="city" placeholder="City name (e.g. London)" value="London" />
+      <button type="submit">Search</button>
+    </form>
+    <div id="result" class="animate-in"></div>
+    <footer>
+     
+    </footer>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="app.js"></script>
+</body>
+</html>

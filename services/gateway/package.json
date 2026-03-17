@@ -1,0 +1,11 @@
+{
+  "name": "weather-gateway",
+  "version": "1.0.0",
+  "description": "Service 3: Public API and web UI for weather",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" }
+}

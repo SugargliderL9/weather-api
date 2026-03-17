@@ -1,0 +1,30 @@
+# Run all 3 services locally
+# Usage: docker-compose up
+services:
+  collector:
+    build: ./services/collector
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}
+
+  processor:
+    build: ./services/processor
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - COLLECTOR_URL=http://collector:3001
+    depends_on:
+      - collector
+
+  gateway:
+    build: ./services/gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - PROCESSOR_URL=http://processor:3002
+    depends_on:
+      - processor
