@@ -5,7 +5,7 @@
 const http = require('http');
 
 const PORT = process.env.PORT || 3002;
-const raw = process.env.COLLECTOR_URL || 'http://localhost:3001';
+const raw = process.env.COLLECTOR_URL || 'https://collector-service-on1g.onrender.com';
 const BASE = raw.startsWith('http') ? raw : `https://${raw}`;
 
 const server = http.createServer(async (req, res) => {

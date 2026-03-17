@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const PROCESSOR_URL_RAW = process.env.PROCESSOR_URL || 'http://localhost:3002';
+const PROCESSOR_URL_RAW = process.env.PROCESSOR_URL || 'https://processor-service-nvoq.onrender.com';
 const PROCESSOR_URL = PROCESSOR_URL_RAW.startsWith('http') ? PROCESSOR_URL_RAW : `https://${PROCESSOR_URL_RAW}`;
 
 const MIME = {
